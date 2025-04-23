@@ -4,6 +4,8 @@
 
 ### **Basic Commands**
 
+
+
 1. **`pwd`** - Print the current working directory.
    - Example: `pwd`
 
@@ -38,6 +40,20 @@
    - Example: `man ls`
 
 ---
+
+ ---
+
+### 🔹 `sudo` – Run commands with superuser (root) privileges  
+**Example:** `sudo apt update` – Update package lists as root.
+
+---
+
+### 🔹 `systemctl` – Manage and control system services  
+**Example:** `sudo systemctl start tor` – Start the Tor service.
+
+--- 
+
+Let me know if you'd like more examples for these!
 
 ### **File Permissions & Ownership**
 
