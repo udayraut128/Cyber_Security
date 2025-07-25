@@ -1,217 +1,302 @@
-# 🦈 Wireshark — Complete Detailed Guide  
+🔥 **Wireshark** is one of the **most powerful, detailed, and essential tools** for network analysis, troubleshooting, and **offensive/defensive security.**
+
+Here’s **the complete, in-depth explanation of Wireshark** — every topic covered, **nothing skipped, fully detailed, with examples.**
 
 ---
 
-## 📖 What is Wireshark?
-
-**Wireshark** is a free, open-source, and powerful **network packet analyzer** that captures and displays data packets traveling through a network in real-time.
-
-It helps:
-- **Inspect network traffic**
-- **Troubleshoot network issues**
-- **Analyze security incidents**
-- **Reverse-engineer protocols**
-- **Learn about how networking works**
+# 🐉 Kali GPT’s Full Wireshark Guide
 
 ---
 
-## 🛠️ Features of Wireshark  
+# 📖 **What is Wireshark?**
 
-✅ Real-time **packet capturing**  
-✅ **Detailed protocol analysis**  
-✅ Support for **hundreds of protocols (TCP, UDP, HTTP, DNS, etc.)**  
-✅ Capture from **Ethernet, Wi-Fi, Bluetooth, VPN tunnels**  
-✅ **Filtering, sorting, and highlighting** of captured packets  
-✅ **Export and save capture data** in various formats  
-✅ Supports **decryption for protocols like SSL/TLS, WPA/WPA2**  
-✅ Works on **Linux, Windows, macOS**
+* **Wireshark** is a **network protocol analyzer** (packet sniffer).
+* It captures live network traffic and allows **detailed inspection of packet data.**
+* Supports **hundreds of protocols** like TCP, UDP, HTTP, DNS, FTP, SMB, SSL/TLS, ARP, etc.
+* Can capture:
+
+  * Plaintext traffic
+  * Passwords
+  * Cookies
+  * Session tokens
+  * Malware payloads
+* ✅ Pre-installed or easily installed on Kali Linux.
 
 ---
 
-## 📦 Installation
+# 🎯 **What Can Wireshark Do?**
 
-### 📌 On Kali Linux (Pre-installed)
-Check version:
-```bash
-wireshark --version
-```
+| Function                   | Description                                         |
+| -------------------------- | --------------------------------------------------- |
+| 🛡️ Packet Capture         | Sniff live traffic from network interfaces          |
+| 🔬 Packet Analysis         | View each packet at Layer 2-7                       |
+| 🕵️ Protocol Decoding      | Supports complex protocol dissection                |
+| 🔗 Network Troubleshooting | Detect delays, retransmissions, dropped packets     |
+| 🏴‍☠️ Password Sniffing    | Capture plaintext HTTP, FTP, Telnet, POP3 passwords |
+| 📊 Traffic Analysis        | Visualize packet flows and usage                    |
+| ⚡ Real-Time Inspection     | Analyze network as packets arrive                   |
+| 🔐 TLS/SSL Analysis        | Decrypt TLS if keys are known                       |
 
-If not:
+---
+
+# 🚀 **Wireshark Installation (Kali Linux)**
+
 ```bash
 sudo apt update
 sudo apt install wireshark
 ```
 
-Add user to Wireshark group to capture without root:
+Allow non-root capture (optional):
+
 ```bash
-sudo usermod -aG wireshark $(whoami)
-sudo reboot
+sudo dpkg-reconfigure wireshark-common
+sudo usermod -aG wireshark $USER
 ```
 
 ---
 
-## 🎛️ How Wireshark Works  
+# 🖥️ **Wireshark Interface Overview**
 
-Wireshark captures **network frames (packets)** from network interfaces like Ethernet, Wi-Fi, or virtual interfaces.  
-It decodes the protocols and allows you to:
-- **View live packet streams**
-- **Filter traffic by protocol, IP, or port**
-- **Inspect packet contents in detail**
+| Section             | Purpose                                         |
+| ------------------- | ----------------------------------------------- |
+| Capture Interface   | Select which network interface to sniff         |
+| Packet List Pane    | Displays captured packets                       |
+| Packet Details Pane | Shows protocol layers for the selected packet   |
+| Packet Bytes Pane   | Shows raw packet in hex                         |
+| Display Filter Bar  | Filter packets using Wireshark syntax           |
+| Statistics Menu     | Graphs, I/O, protocol hierarchy, endpoint lists |
 
 ---
 
-## 🕹️ Basic Usage  
+# 🔧 **How to Capture Packets (Step-by-Step)**
 
-**Start Wireshark GUI:**
+### 1️⃣ Open Wireshark:
+
 ```bash
-wireshark
+sudo wireshark
 ```
 
-**Start capturing:**
-- Select your **network interface (eth0, wlan0, etc.)**
-- Click **Start Capturing Packets**
+### 2️⃣ Select interface (e.g., eth0, wlan0)
 
-**Stop capturing:**
-- Click **Stop**
+### 3️⃣ Start capture:
 
----
+Click the blue shark fin.
 
-## 🔍 Display Filters  
+### 4️⃣ Stop capture:
 
-Use filters to narrow down the packets you want to analyze.
-
-| Filter Example | Description |
-|:----------------|:--------------------|
-| `ip.addr == 192.168.1.1` | Show traffic to/from 192.168.1.1 |
-| `tcp.port == 80` | Show HTTP traffic |
-| `udp` | Show only UDP packets |
-| `http` | Show only HTTP traffic |
-| `dns` | Show DNS traffic |
-| `tcp.flags.syn == 1` | Show TCP SYN packets |
-| `ip.src == 10.0.0.2` | Show packets from a specific source IP |
-| `tcp.analysis.retransmission` | Show retransmitted TCP packets |
-
-👉 Enter these in the **Display Filter** bar.
+Click the red square.
 
 ---
 
-## 📊 Example Packet Analysis  
+# 🔎 **Wireshark Filters (Display Filters)**
 
-When you click on a captured packet, you’ll see:
-1. **Frame info:** Number, size, capture time.
-2. **Ethernet Header:** Source & destination MAC addresses.
-3. **IP Header:** Source & destination IP addresses.
-4. **Protocol info:** TCP/UDP/ICMP flags, ports.
-5. **Payload data:** Actual transmitted content (if available).
+Display filters let you **focus only on interesting packets.**
 
----
-
-## ⚙️ Capture Filters (Before Capture)  
-
-Capture only what you need from the start.
-
-| Capture Filter | Description |
-|:----------------|:--------------------|
-| `host 192.168.1.5` | Capture traffic to/from specific IP |
-| `port 80` | Capture HTTP traffic |
-| `tcp` | Capture only TCP traffic |
-| `udp` | Capture only UDP traffic |
-| `net 192.168.1.0/24` | Capture traffic from subnet |
-| `src 192.168.1.5` | Capture packets sent from an IP |
-| `dst port 443` | Capture HTTPS traffic |
-
-👉 Go to **Capture Options** → Enter this in **Capture Filter**.
+| Filter                   | Description                                  |
+| ------------------------ | -------------------------------------------- |
+| `ip.addr == 192.168.1.1` | Filter packets with source or destination IP |
+| `tcp.port == 80`         | Filter HTTP traffic                          |
+| `http`                   | Show HTTP packets only                       |
+| `ftp`                    | Show FTP traffic                             |
+| `dns`                    | Show DNS queries and responses               |
+| `tcp contains password`  | Search for "password" in TCP streams         |
+| `frame contains "admin"` | Search raw frames for "admin" keyword        |
+| `tcp.flags.syn == 1`     | Show SYN packets (TCP handshake initiation)  |
 
 ---
 
-## 🔐 Decrypt SSL/TLS (Optional)
-
-If you have the SSL keys:
-1. Go to **Edit → Preferences → Protocols → SSL**
-2. Enter the SSL key log file path.
-3. Wireshark will decrypt HTTPS traffic.
+## 🛠️ **Real-World Examples and Scenarios**
 
 ---
 
-## 📁 Exporting and Saving
+### ✅ 1. Capture HTTP Passwords (Plaintext)
 
-| Format | Use |
-|:-------------|:----------------|
-| **.pcap/.pcapng** | Raw packet capture (used by other tools) |
-| **.csv/.json** | Export as readable data |
-| **.txt** | Export selected packet details |
+#### Filter:
 
----
-
-## 🎯 Common Use Cases  
-
-| Situation | How Wireshark Helps |
-|:--------------|:----------------|
-| **Detect Network Attacks** | View abnormal traffic spikes, SYN floods, scans |
-| **Capture Credentials** | If traffic is unencrypted, see usernames, passwords |
-| **Monitor HTTP/HTTPS** | See requests, responses, status codes |
-| **DNS Analysis** | Look up which domains a device queries |
-| **Troubleshooting** | Identify dropped packets, retransmissions, delays |
-| **Reverse Engineering** | Analyze unknown protocols, malware traffic |
-| **Capture Hidden Devices** | Detect rogue devices on the network |
-
----
-
-## 📌 Wireshark CLI Tool — tshark  
-
-Wireshark has a terminal-based tool too:
 ```bash
-tshark -i wlan0
+http.request.method == "POST"
 ```
 
-Common commands:
+Look for login forms and check TCP stream for credentials.
+
+---
+
+### ✅ 2. Capture FTP Passwords
+
+#### Filter:
+
 ```bash
-tshark -i eth0 -c 50                # Capture 50 packets
-tshark -i wlan0 -f "port 80"        # Capture HTTP traffic only
-tshark -r capture.pcap              # Read a pcap file
-tshark -i eth0 -Y "ip.addr==192.168.1.1"   # Filter specific IP
+ftp
 ```
 
----
-
-## ✅ Summary  
-
-| What It Does | How |
-|:------------------|:------------|
-| **Capture network packets in real-time** | From any connected interface |
-| **Analyze packets, headers, payloads** | Through detailed GUI layers |
-| **Filter by protocols, IPs, ports** | Display and Capture filters |
-| **Support multiple export formats** | PCAP, CSV, XML, JSON |
-| **Decrypt encrypted traffic** | With appropriate keys |
-| **Find attacks, weaknesses, and errors** | Through expert analysis |
-| **Command-line support via tshark** | Lightweight CLI capture |
+FTP is unencrypted → username and password visible.
 
 ---
 
-## 📝 Wireshark Cheat Sheet  
+### ✅ 3. ARP Spoofing Detection
+
+#### Filter:
 
 ```bash
-wireshark                             # Start GUI
-wireshark -k -i wlan0                 # Start capturing on wlan0
+arp
+```
 
-# Common Capture Filters (before capture)
-host 192.168.1.1
-port 80
-tcp
-udp
+Watch for ARP replies that claim to own multiple IP addresses.
 
-# Common Display Filters (after capture)
-ip.addr == 192.168.1.1
-tcp.port == 443
-http
+---
+
+### ✅ 4. DNS Traffic Inspection
+
+#### Filter:
+
+```bash
 dns
-tcp.flags.syn == 1
+```
 
-# tshark Examples (CLI)
-tshark -i eth0 -c 100
-tshark -r capture.pcap
-tshark -i eth0 -Y "ip.addr==10.0.0.5"
+Check for suspicious DNS queries (e.g., to known C2 domains).
+
+---
+
+### ✅ 5. View TCP 3-Way Handshake
+
+#### Filter:
+
+```bash
+tcp.flags.syn == 1
+```
+
+Find SYN → SYN-ACK → ACK packet sequence.
+
+---
+
+### ✅ 6. Capture All Traffic to a Host
+
+#### Filter:
+
+```bash
+ip.addr == 10.10.10.10
 ```
 
 ---
 
+### ✅ 7. Extract Files from PCAP
+
+* Go to: **File > Export Objects > HTTP/FTP/SMB**
+* Extract files transmitted over these protocols.
+
+---
+
+### ✅ 8. Follow TCP Stream (For Cleartext Extraction)
+
+* Right-click a packet → Follow → TCP Stream
+* See entire conversation in plaintext if unencrypted.
+
+---
+
+### ✅ 9. Detect Port Scanning (e.g. Nmap Scan)
+
+#### Filter:
+
+```bash
+tcp.flags.syn == 1 && tcp.flags.ack == 0
+```
+
+Look for a rapid sequence of SYNs without ACKs.
+
+---
+
+### ✅ 10. TLS/SSL Traffic Capture
+
+#### Filter:
+
+```bash
+tls
+```
+
+* If you have the private key (rare), you can decrypt sessions.
+* If using Wireshark with browser key logging:
+
+```bash
+export SSLKEYLOGFILE=~/Desktop/keys.log
+```
+
+Point Wireshark to this file for session decryption.
+
+---
+
+# 📊 **Wireshark Statistics Tools**
+
+| Feature            | Purpose                                   |
+| ------------------ | ----------------------------------------- |
+| Protocol Hierarchy | Analyze traffic by protocol               |
+| Conversations      | Analyze session-level connections         |
+| Endpoints          | Show most active IPs, MACs, TCP ports     |
+| I/O Graphs         | Visualize traffic over time               |
+| Flow Graph         | Reconstruct packet flow between endpoints |
+
+---
+
+# 🛡️ **Wireshark and Ethical Hacking**
+
+✅ **Offensive Use:**
+
+* Sniffing credentials on open networks
+* Capturing cookies (session hijacking)
+* ARP poisoning capture
+* Password extraction from HTTP, FTP, POP3
+
+✅ **Defensive Use:**
+
+* Detecting ARP spoofing
+* Identifying port scans
+* Analyzing malware C2 traffic
+* Monitoring data exfiltration
+
+---
+
+# 🔐 **How to Defend Against Wireshark Sniffing**
+
+* Always use HTTPS, SSH, TLS-encrypted protocols.
+* Use VPNs to encrypt all traffic.
+* Use certificate pinning in applications.
+* Employ network segmentation to isolate sensitive traffic.
+* Deploy IDS/IPS to detect sniffing behavior.
+
+---
+
+# ✅ Wireshark Summary Cheat Sheet
+
+| Purpose           | Filter                            |
+| ----------------- | --------------------------------- |
+| HTTP Traffic      | `http`                            |
+| FTP Traffic       | `ftp`                             |
+| DNS Traffic       | `dns`                             |
+| SYN Packets       | `tcp.flags.syn == 1`              |
+| Filter by IP      | `ip.addr == x.x.x.x`              |
+| Search for String | `frame contains "string"`         |
+| Follow TCP Stream | Right-click > Follow > TCP Stream |
+
+---
+
+# 🔥 Pro Tips
+
+* 🛑 Use `tcpdump` for headless packet capture, then analyze PCAP in Wireshark.
+* ⚙️ Use `Capture Filters` (BPF syntax) to control what’s captured.
+* 📂 PCAP files can be imported into tools like Tshark or Scapy for further scripting.
+* 🏴‍☠️ Perfect for **man-in-the-middle (MITM) attacks** when paired with `ettercap` or `bettercap`.
+
+---
+
+# ⚙️ **Capture Filter vs Display Filter**
+
+| Type           | Example       | Scope                          |
+| -------------- | ------------- | ------------------------------ |
+| Capture Filter | `tcp port 80` | Filters at packet capture time |
+| Display Filter | `http`        | Filters after capture          |
+
+👉 Capture filters reduce capture size.
+👉 Display filters help you focus post-capture.
+
+---
+
+ 
