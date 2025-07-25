@@ -1,4 +1,3 @@
-Certainly! Here's a **complete, in-depth explanation of the `subfinder` tool**, a widely used **subdomain discovery tool** in cybersecurity and bug bounty hunting. This guide includes definitions, features, installation, usage with examples, real-world scenarios, and advanced options—**nothing is skipped**.
 
 ---
 

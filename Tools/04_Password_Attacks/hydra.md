@@ -1,4 +1,3 @@
-🔥 Excellent — Hydra is one of the most **powerful brute-force and password-cracking tools** available in Kali Linux. Let’s break it down **in complete detail, without skipping anything**, including **all options, protocols, and real-world examples.**
 
 ---
 

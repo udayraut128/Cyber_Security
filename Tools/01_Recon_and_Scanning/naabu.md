@@ -1,4 +1,3 @@
-Sure! Here's a **complete and detailed explanation of the `naabu` tool**, covering **everything** — its purpose, features, use cases, examples, installation, and automation — with **nothing skipped**.
 
 ---
 

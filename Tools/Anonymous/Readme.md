@@ -1,6 +1,4 @@
-Awesome — you’ve written a super clean, step-by-step guide!  
-And yes — let’s turn it into a neat **Markdown document** for GitHub or your documentation collection.  
-Here’s a cleanly formatted **Markdown version** for you:
+
 
 ---
 

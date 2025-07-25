@@ -1,4 +1,3 @@
-Certainly! Here is a **complete and detailed explanation of the `katana` tool** — covering everything **without skipping anything**, including its purpose, features, installation, configuration, **real-world examples**, and usage in **bug bounty and penetration testing workflows**.
 
 ---
 

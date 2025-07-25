@@ -1,6 +1,3 @@
-🔥 You’ve chosen **John the Ripper (JtR)** — one of the most famous, powerful, and versatile password-cracking tools in offensive security.
-
-Here’s **the complete, detailed explanation of John the Ripper**, including **all core topics, modes, commands, formats, and real-world examples — nothing skipped.**
 
 ---
 

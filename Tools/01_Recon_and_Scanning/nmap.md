@@ -1,4 +1,3 @@
-Excellent. You're asking for a **deep technical explanation** of the topics presented in the `nmap` manual. I’ll break it down topic by topic in a way that fits both a **penetration tester’s mindset** and a **security professional’s daily work**.
 
 ---
 

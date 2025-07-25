@@ -1,4 +1,3 @@
-Sure! Let’s deep-dive into **TheHarvester**, a powerful reconnaissance tool used in **penetration testing**, **OSINT (Open Source Intelligence)** gathering, and **ethical hacking**.
 
 ---
 

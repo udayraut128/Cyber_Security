@@ -1,4 +1,3 @@
-Absolutely! Here’s a **complete, detailed explanation of the `Amass` tool**, a powerful **subdomain enumeration**, **network mapping**, and **attack surface discovery** framework—widely used in penetration testing, OSINT, and bug bounty hunting.
 
 ---
 
