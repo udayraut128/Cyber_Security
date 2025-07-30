@@ -132,9 +132,6 @@ Feel free to fork this repo, raise issues, or submit PRs if you have ideas, tool
 
 ## 📝 License
 
-This repository is licensed under the [MIT License](LICENSE).
+This repository is licensed under the [MIT License].
 
-```
-
----
  
