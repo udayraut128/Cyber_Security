@@ -1,6 +1,4 @@
-Here’s a complete and professional `README.md` file for your **Cybersecurity GitHub repository**. This is tailored for showcasing your projects, tools, learning resources, and hands-on skills in cybersecurity.
-
----
+ ---
 
 ``
 # 🛡️ Cybersecurity Repository
